@@ -12,6 +12,8 @@ accounts:
     - library/ubuntu
     - library/centos
     - library/nginx
+    - dinukx/kub-demo
+    - minio/minio
 # - name: gcr
 #   address: https://gcr.io
 #   username: _json_key
@@ -51,15 +53,15 @@ deck:
   port: 9000
   protocol: http
   ingress:
-    enabled: false
-    # annotations:
-      # ingress.kubernetes.io/ssl-redirect: 'true'
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    # tls:
-    #  - secretName: -tls
-    #    hosts:
-    #      - domain.com
+    enabled: true
+     annotations:
+       ingress.kubernetes.io/ssl-redirect: 'true'
+       kubernetes.io/ingress.class: nginx
+       kubernetes.io/tls-acme: "true"
+     tls:
+      - secretName: -tls
+        hosts:
+          - domain.com
 
 gate:
   allowedOriginsPattern: '^https?://(?:localhost|127.0.0.1|[^/]+\.example\.com)(?::[1-9]\d*)?/?$'
@@ -84,12 +86,14 @@ resources:
 # Redis is not exposed publically
 redis:
   redisPassword: password
+  imagetag: latest
+  enabled: true
 
 # Minio access/secret keys for the in-cluster S3 usage
 # Minio is not exposed publically
 minio:
   enabled: true
-  imageTag: RELEASE.2016-11-26T02-23-47Z
+  imageTag: RELEASE.2017-11-22T19-55-46Z
   serviceType: ClusterIP
   accessKey: spinnakeradmin
   secretKey: spinnakeradmin
